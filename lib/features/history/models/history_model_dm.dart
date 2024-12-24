@@ -3,6 +3,7 @@ class HistoryModelDm {
   final String date;
   final String pname;
   final String vehicleNo;
+  final String transporter;
   final List<HistoryItemDm> items;
 
   HistoryModelDm({
@@ -10,6 +11,7 @@ class HistoryModelDm {
     required this.date,
     required this.pname,
     required this.vehicleNo,
+    required this.transporter,
     required this.items,
   });
 
@@ -19,6 +21,7 @@ class HistoryModelDm {
       date: json['date'],
       pname: json['pname'],
       vehicleNo: json['vehicleNo'],
+      transporter: json['transporter'],
       items: (json['items'] as List)
           .map(
             (item) => HistoryItemDm.fromJson(item),
@@ -29,17 +32,17 @@ class HistoryModelDm {
 }
 
 class HistoryItemDm {
-  final String icode;
+  final String iname;
   final String qty;
 
   HistoryItemDm({
-    required this.icode,
+    required this.iname,
     required this.qty,
   });
 
   factory HistoryItemDm.fromJson(Map<String, dynamic> json) {
     return HistoryItemDm(
-      icode: json['icode'],
+      iname: json['iname'],
       qty: json['qty'],
     );
   }

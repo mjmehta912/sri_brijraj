@@ -1,7 +1,8 @@
 import 'package:brijraj_app/constants/color_constants.dart';
+import 'package:brijraj_app/constants/image_constants.dart';
 import 'package:brijraj_app/features/bottom_nav/screens/bottom_nav_screen.dart';
 import 'package:brijraj_app/features/login/screens/login_screen.dart';
-import 'package:brijraj_app/styles/textstyles.dart';
+import 'package:brijraj_app/widgets/app_size_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -54,14 +55,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorPrimary,
+      backgroundColor: kColorwhite,
       body: Center(
-        child: Text(
-          'SRI BRIJRAJ',
-          style: TextStyles.kBoldInstrumentSans(
-            fontSize: 40,
-            color: kColorwhite,
-          ),
+        child: Image.asset(
+          kIconBrijraj,
+          height: 0.3.screenHeight,
+          width: 0.4.screenWidth,
         ),
       ),
     );

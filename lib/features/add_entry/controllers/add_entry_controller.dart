@@ -1,4 +1,5 @@
 import 'package:brijraj_app/features/add_entry/models/customer_dm.dart';
+import 'package:brijraj_app/features/add_entry/models/transporter_dm.dart';
 import 'package:brijraj_app/features/add_entry/models/vehicle_dm.dart';
 import 'package:brijraj_app/features/add_entry/services/add_entry_service.dart';
 import 'package:brijraj_app/utils/alert_message_utils.dart';
@@ -15,49 +16,48 @@ class AddEntryController extends GetxController {
   var fuelController = TextEditingController();
   var isFuelAdded = false.obs;
   var isLoading = false.obs;
-  var isOilAdded = false.obs;
+
   var items = <Map<String, dynamic>>[].obs;
-  var oilController = TextEditingController();
+  var otherItemController = TextEditingController();
+  var otherItemQtyController = TextEditingController();
   var selectedCustomerCode = ''.obs;
   var selectedCustomerName = ''.obs;
-  var selectedFuelType = 'P'.obs;
+  var selectedFuelType = 'Petrol'.obs;
   var selectedVehicleCode = 0.obs;
   var selectedVehicleNo = ''.obs;
   final vehicleNoController = TextEditingController();
   var vehicles = <VehicleDm>[].obs;
+  final transporterNameController = TextEditingController();
+  var transporters = <TransporterDm>[].obs;
+  var filteredTransporters = <TransporterDm>[].obs;
+  var selectedTransporter = ''.obs;
 
   void setFuelType(String type) {
     selectedFuelType.value = type;
   }
 
   void addItem({
-    required String code,
+    required String iName,
     required double qty,
   }) {
     items.add(
       {
-        "ICODE": code,
+        "INAME": iName,
         "QTY": qty,
       },
     );
 
-    if (code == 'P' || code == 'D') {
+    if (iName == 'Petrol' || iName == 'Diesel') {
       isFuelAdded.value = true;
-    } else if (code == 'O') {
-      isOilAdded.value = true;
     }
   }
 
   void removeItem(int index) {
     final removedItem = items.removeAt(index);
 
-    if (removedItem['ICODE'] == 'P' || removedItem['ICODE'] == 'D') {
+    if (removedItem['INAME'] == 'Petrol' || removedItem['INAME'] == 'Diesel') {
       isFuelAdded.value = items.any(
-        (item) => item['ICODE'] == 'P' || item['ICODE'] == 'D',
-      );
-    } else if (removedItem['ICODE'] == 'O') {
-      isOilAdded.value = items.any(
-        (item) => item['ICODE'] == 'O',
+        (item) => item['INAME'] == 'Petrol' || item['INAME'] == 'Diesel',
       );
     }
   }
@@ -91,8 +91,9 @@ class AddEntryController extends GetxController {
     } else {
       filteredCustomers.value = customers
           .where(
-            (customer) =>
-                customer.pname.toLowerCase().contains(query.toLowerCase()),
+            (customer) => customer.pname.toLowerCase().contains(
+                  query.toLowerCase(),
+                ),
           )
           .toList();
     }
@@ -118,7 +119,57 @@ class AddEntryController extends GetxController {
 
     if (existingCustomer.pcode.isNotEmpty) {
       selectedCustomerCode.value = existingCustomer.pcode;
+      filterVehiclesByCustomer(existingCustomer.pcode);
+    } else {
+      filteredVehicles.clear();
     }
+  }
+
+  Future<void> fetchTransporters({String? tname}) async {
+    try {
+      isLoading.value = true;
+
+      final fetchedTransporters = await AddEntryService.fetchTransporter(tname);
+      transporters.assignAll(fetchedTransporters);
+
+      if (tname == null || tname.isEmpty) {
+        filteredTransporters.assignAll(transporters);
+      } else {
+        filterTransporters(tname);
+      }
+    } catch (e) {
+      showErrorSnackbar(
+        'Failed to load transporters',
+        e.toString(),
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void filterTransporters(String query) {
+    if (query.isEmpty) {
+      filteredTransporters.assignAll(transporters);
+    } else {
+      filteredTransporters.value = transporters
+          .where(
+            (transporter) => transporter.transporterName.toLowerCase().contains(
+                  query.toLowerCase(),
+                ),
+          )
+          .toList();
+    }
+  }
+
+  void setSelectedTransporter(TransporterDm transporter) {
+    selectedTransporter.value = transporter.transporterName;
+    transporterNameController.text = transporter.transporterName;
+
+    filteredTransporters.clear();
+  }
+
+  void handleNewTransporter(String transporterName) {
+    selectedTransporter.value = transporterName;
   }
 
   Future<void> fetchVehicles({String? vehicleNo}) async {
@@ -145,15 +196,16 @@ class AddEntryController extends GetxController {
   }
 
   void filterVehicles(String query) {
-    // If there's no query or customer is not selected, show all vehicles
     if (query.isEmpty) {
       filteredVehicles.assignAll(vehicles);
     } else {
       filteredVehicles.value = vehicles
-          .where((vehicle) =>
-              vehicle.vehicleNo.toLowerCase().contains(query.toLowerCase()) &&
-              (selectedCustomerCode.value.isEmpty ||
-                  vehicle.pCode == selectedCustomerCode.value))
+          .where(
+            (vehicle) =>
+                vehicle.vehicleNo.toLowerCase().contains(query.toLowerCase()) &&
+                (selectedCustomerCode.value.isEmpty ||
+                    vehicle.pCode == selectedCustomerCode.value),
+          )
           .toList();
     }
   }
@@ -213,6 +265,7 @@ class AddEntryController extends GetxController {
         date: DateFormat('yyyy-MM-dd').format(
           DateFormat('dd-MM-yyyy').parse(dateController.text),
         ),
+        transporter: transporterNameController.text,
         pname: selectedCustomerName.value,
         pcode: selectedCustomerCode.value,
         vehicleNo: selectedVehicleNo.value,
@@ -226,6 +279,7 @@ class AddEntryController extends GetxController {
         'Success',
         message,
       );
+      transporterNameController.clear();
       customerNameController.clear();
       vehicleNoController.clear();
       selectedCustomerName.value = '';
@@ -234,7 +288,6 @@ class AddEntryController extends GetxController {
       selectedVehicleCode.value = 0;
       items.clear();
       isFuelAdded.value = false;
-      isOilAdded.value = false;
     } catch (e) {
       showErrorSnackbar(
         'Failed to save entry',

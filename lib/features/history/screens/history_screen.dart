@@ -103,15 +103,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           final item = history.items[itemIndex];
 
                           return Text(
-                            '${_controller.items.entries.firstWhere(
-                                  (i) => i.value == item.icode,
-                                ).key} - ${item.qty} Litre',
+                            item.iname == 'Petrol' || item.iname == 'Diesel'
+                                ? '${item.iname} - ${item.qty} L'
+                                : '${item.iname} - ${item.qty}',
                             style: TextStyles.kSemiBoldInstrumentSans(
                               color: kColorSecondary,
                               fontSize: 18,
                             ),
                           );
                         },
+                      ),
+                      Text(
+                        history.transporter.isNotEmpty
+                            ? history.transporter
+                            : 'N/A',
+                        style: TextStyles.kSemiBoldInstrumentSans(
+                          color: kColorPrimary,
+                          fontSize: 18,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

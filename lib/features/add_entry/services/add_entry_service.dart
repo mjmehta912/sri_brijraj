@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:brijraj_app/constants/api_constants.dart';
 import 'package:brijraj_app/features/add_entry/models/customer_dm.dart';
+import 'package:brijraj_app/features/add_entry/models/transporter_dm.dart';
 import 'package:brijraj_app/features/add_entry/models/vehicle_dm.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,6 +30,37 @@ class AddEntryService {
       return data
           .map(
             (json) => CustomerDm.fromJson(json),
+          )
+          .toList();
+    } else {
+      throw response.body;
+    }
+  }
+
+  static Future<List<TransporterDm>> fetchTransporter([
+    String? tName,
+  ]) async {
+    final query =
+        tName != null && tName.isNotEmpty ? '?Transporter=$tName' : '';
+    final url = Uri.parse(
+      '$kBaseUrl/data/transporter$query',
+    );
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      final List<dynamic> data = body['data'];
+      return data
+          .map(
+            (json) => TransporterDm.fromJson(json),
           )
           .toList();
     } else {
@@ -70,6 +102,7 @@ class AddEntryService {
 
   static Future<String> addEntry({
     required String date,
+    required String transporter,
     required String pname,
     required String pcode,
     required String vehicleNo,
@@ -86,6 +119,7 @@ class AddEntryService {
 
     final Map<String, dynamic> requestBody = {
       'DATE': date,
+      'Transporter': transporter,
       'PNAME': pname,
       'PCODE': pcode,
       'VehicleNo': vehicleNo,

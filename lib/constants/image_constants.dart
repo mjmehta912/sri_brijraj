@@ -6,4 +6,7 @@ const String kIconProfile = 'assets/icons/profile.svg';
 const String kIconProfileFilled = 'assets/icons/profile_filled.svg';
 
 const String kIconFuel = 'assets/icons/fuel.svg';
-const String kIconOil = 'assets/icons/oil.svg';
+// const String kIconOil = 'assets/icons/oil.svg';
+const String kIconOther = 'assets/icons/other.svg';
+
+const String kIconBrijraj = 'assets/icons/brijraj_icon.png';

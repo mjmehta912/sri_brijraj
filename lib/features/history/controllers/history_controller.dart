@@ -7,11 +7,6 @@ class HistoryController extends GetxController {
   var isLoading = false.obs;
 
   var historyList = <HistoryModelDm>[].obs;
-  var items = {
-    'Petrol': 'P',
-    'Diesel': 'D',
-    'Oil': 'O',
-  }.obs;
 
   Future<void> fetchHistory() async {
     isLoading.value = true;
