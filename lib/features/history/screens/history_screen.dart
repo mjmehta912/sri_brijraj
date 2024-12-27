@@ -81,12 +81,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        history.slipNo,
-                        style: TextStyles.kSemiBoldInstrumentSans(
-                          color: kColorPrimary,
-                          fontSize: 18,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            history.slipNo,
+                            style: TextStyles.kSemiBoldInstrumentSans(
+                              color: kColorPrimary,
+                              fontSize: 18,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _controller.viewPdf(slipNo: history.slipNo);
+                            },
+                            child: Icon(
+                              Icons.print,
+                              color: kColorPrimary,
+                              size: 25,
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         history.date,

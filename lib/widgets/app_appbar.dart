@@ -9,6 +9,7 @@ class AppAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final bool automaticallyImplyLeading;
   final double titleSpacing;
+  final List<Widget>? actions;
 
   const AppAppbar({
     super.key,
@@ -17,6 +18,7 @@ class AppAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.automaticallyImplyLeading = false,
     this.titleSpacing = 24.0,
+    this.actions,
   });
 
   @override
@@ -34,6 +36,7 @@ class AppAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
       titleSpacing: titleSpacing.appWidth,
       leading: leading,
+      actions: actions,
     );
   }
 
