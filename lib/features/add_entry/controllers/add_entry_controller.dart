@@ -22,7 +22,7 @@ class AddEntryController extends GetxController {
   var otherItemQtyController = TextEditingController();
   var selectedCustomerCode = ''.obs;
   var selectedCustomerName = ''.obs;
-  var selectedFuelType = 'Petrol'.obs;
+  var selectedFuelType = 'Diesel'.obs;
   var selectedVehicleCode = 0.obs;
   var selectedVehicleNo = ''.obs;
   final vehicleNoController = TextEditingController();

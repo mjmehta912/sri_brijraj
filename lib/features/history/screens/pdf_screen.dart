@@ -24,12 +24,12 @@ class PdfScreen extends StatefulWidget {
 }
 
 class _PdfScreenState extends State<PdfScreen> {
-  bool isPdfReady = false; // Track the PDF loading state
+  bool isPdfReady = false;
 
   @override
   void initState() {
     super.initState();
-    isPdfReady = false; // Initialize it as false
+    isPdfReady = false;
   }
 
   Future<void> _sharePdf() async {
@@ -74,7 +74,6 @@ class _PdfScreenState extends State<PdfScreen> {
       ),
       body: Stack(
         children: [
-          // PDFView to show the content
           PDFView(
             pdfData: widget.pdfBytes,
             enableSwipe: true,
@@ -82,20 +81,16 @@ class _PdfScreenState extends State<PdfScreen> {
             pageFling: false,
             fitPolicy: FitPolicy.BOTH,
             onRender: (pages) async {
-              // Once rendering is complete, update isPdfReady to true
-              await Future.delayed(
-                  Duration(milliseconds: 300)); // Allow some delay
+              await Future.delayed(Duration(milliseconds: 300));
               if (mounted) {
                 setState(() {
-                  isPdfReady = true; // Mark PDF as ready
+                  isPdfReady = true;
                 });
               }
             },
           ),
-
-          // Display loading indicator until PDF is ready
           isPdfReady
-              ? const SizedBox.shrink() // Hide the loader when PDF is ready
+              ? const SizedBox.shrink()
               : const Center(
                   child: CircularProgressIndicator(
                     color: kColorPrimary,

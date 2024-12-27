@@ -272,7 +272,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                                   onPressed: _controller.isFuelAdded.value
                                       ? () {}
                                       : () {
-                                          _controller.setFuelType('Petrol');
+                                          _controller.setFuelType('Diesel');
                                           _controller.fuelController.clear();
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
