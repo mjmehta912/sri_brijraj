@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(seconds: 3),
       () {
-        if (fullName!.isNotEmpty) {
+        if ( fullName!=null && fullName.isNotEmpty) {
           Get.offAll(
             () => BottomNavScreen(),
             transition: Transition.fadeIn,

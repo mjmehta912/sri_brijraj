@@ -107,6 +107,7 @@ class AddEntryService {
     required String pcode,
     required String vehicleNo,
     required String vehicleCode,
+    required String remark,
     required List<Map<String, dynamic>> items,
   }) async {
     final url = Uri.parse(
@@ -124,6 +125,7 @@ class AddEntryService {
       'PCODE': pcode,
       'VehicleNo': vehicleNo,
       'VehicleCode': vehicleCode,
+      'Remark': remark,
       'data': items,
     };
 

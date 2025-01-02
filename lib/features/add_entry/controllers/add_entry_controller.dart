@@ -31,6 +31,7 @@ class AddEntryController extends GetxController {
   var transporters = <TransporterDm>[].obs;
   var filteredTransporters = <TransporterDm>[].obs;
   var selectedTransporter = ''.obs;
+  final remarkController = TextEditingController();
 
   void setFuelType(String type) {
     selectedFuelType.value = type;
@@ -272,6 +273,7 @@ class AddEntryController extends GetxController {
         vehicleCode: selectedVehicleCode.value == 0
             ? ''
             : selectedVehicleCode.value.toString(),
+        remark: remarkController.text,
         items: items,
       );
 
@@ -286,6 +288,7 @@ class AddEntryController extends GetxController {
       selectedCustomerCode.value = '';
       selectedVehicleNo.value = '';
       selectedVehicleCode.value = 0;
+      remarkController.clear();
       items.clear();
       isFuelAdded.value = false;
     } catch (e) {

@@ -4,6 +4,8 @@ class HistoryModelDm {
   final String pname;
   final String vehicleNo;
   final String transporter;
+  final String remark;
+  final String entryDateTime;
   final List<HistoryItemDm> items;
 
   HistoryModelDm({
@@ -13,6 +15,8 @@ class HistoryModelDm {
     required this.vehicleNo,
     required this.transporter,
     required this.items,
+    required this.remark,
+    required this.entryDateTime,
   });
 
   factory HistoryModelDm.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,8 @@ class HistoryModelDm {
       pname: json['pname'],
       vehicleNo: json['vehicleNo'],
       transporter: json['transporter'],
+      remark: json['remark'] ?? '',
+      entryDateTime: json['entryDateTime'],
       items: (json['items'] as List)
           .map(
             (item) => HistoryItemDm.fromJson(item),

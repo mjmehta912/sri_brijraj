@@ -43,6 +43,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
     _controller.selectedVehicleNo.value = '';
     _controller.selectedVehicleCode.value = 0;
     _controller.items.clear();
+    _controller.remarkController.clear();
     _controller.isFuelAdded.value = false;
 
     super.initState();
@@ -262,6 +263,11 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                                 );
                               }
                             },
+                          ),
+                          AppSpaces.v16,
+                          AppTextFormField(
+                            controller: _controller.remarkController,
+                            hintText: 'Remark',
                           ),
                           AppSpaces.v16,
                           Row(

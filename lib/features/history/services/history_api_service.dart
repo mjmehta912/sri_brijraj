@@ -6,9 +6,13 @@ import 'package:brijraj_app/features/history/models/history_model_dm.dart';
 import 'package:http/http.dart' as http;
 
 class HistoryService {
-  static Future<List<HistoryModelDm>> fetchHistory() async {
+  static Future<List<HistoryModelDm>> fetchHistory({
+    String slipNo = '',
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
     final url = Uri.parse(
-      '$kBaseUrl/data/history',
+      '$kBaseUrl/data/history?SlipNo=$slipNo&PageSize=$pageSize&PageNumber=$pageNumber',
     );
 
     final headers = {
