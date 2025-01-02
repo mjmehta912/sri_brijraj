@@ -1,3 +1,15 @@
+buildscript {
+    ext.kotlin_version = '1.8.20'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0' // Adjust as needed
+        classpath 'com.google.gms:google-services:4.3.15' // Latest stable version
+    }
+}
+
 allprojects {
     repositories {
         google()
