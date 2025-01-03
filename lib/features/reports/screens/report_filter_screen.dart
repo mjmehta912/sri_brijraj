@@ -177,7 +177,9 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                   ),
                   AppSpaces.v20,
                   AppButton(
-                    onTap: () async {},
+                    onTap: () async {
+                      await _controller.downloadReport();
+                    },
                     buttonHeight: 40.appHeight,
                     title: 'Download Report',
                   ),

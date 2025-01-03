@@ -1,9 +1,16 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:brijraj_app/features/add_entry/models/customer_dm.dart';
 import 'package:brijraj_app/features/add_entry/models/transporter_dm.dart';
 import 'package:brijraj_app/features/add_entry/services/add_entry_service.dart';
+import 'package:brijraj_app/features/reports/services/reports_service.dart';
 import 'package:brijraj_app/utils/alert_message_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ReportsController extends GetxController {
   var isLoading = false.obs;
@@ -107,5 +114,67 @@ class ReportsController extends GetxController {
     transporterNameController.text = transporter.transporterName;
 
     filteredTransporters.clear();
+  }
+
+  /// Check and Request Storage Permissions
+  Future<bool> _checkStoragePermission() async {
+    if (Platform.isAndroid) {
+      if (await Permission.storage.isDenied) {
+        await Permission.storage.request();
+      }
+
+      if (await Permission.manageExternalStorage.isDenied) {
+        await Permission.manageExternalStorage.request();
+      }
+
+      if (await Permission.storage.isPermanentlyDenied ||
+          await Permission.manageExternalStorage.isPermanentlyDenied) {
+        await openAppSettings();
+        return false;
+      }
+
+      return await Permission.storage.isGranted ||
+          await Permission.manageExternalStorage.isGranted;
+    }
+    return true; // iOS doesn't need explicit storage permission
+  }
+
+  /// Download and Open Excel Report
+  Future<void> downloadReport() async {
+    try {
+      isLoading.value = true;
+
+      // Check Permissions
+      bool hasPermission = await _checkStoragePermission();
+      if (!hasPermission) {
+        throw Exception('Storage permission denied');
+      }
+
+      // Download the Excel Report
+      Uint8List fileBytes = await ReportService.downloadExcelReport(
+        fromDate: fromDateController.text,
+        toDate: toDateController.text,
+        transporter: selectedTransporter.value,
+        pCode: selectedCustomerCode.value,
+      );
+
+      // Save the File
+      final directory = await getApplicationSupportDirectory();
+      final filePath =
+          '${directory.path}/report_${DateTime.now().millisecondsSinceEpoch}.xlsx';
+
+      final File file = File(filePath);
+      await file.writeAsBytes(fileBytes);
+
+      // Open the File
+      await OpenFile.open(filePath);
+    } catch (e) {
+      showErrorSnackbar(
+        'Download Failed',
+        e.toString(),
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
