@@ -2,6 +2,7 @@ import 'package:brijraj_app/constants/color_constants.dart';
 import 'package:brijraj_app/features/reports/controllers/reports_controller.dart';
 
 import 'package:brijraj_app/styles/textstyles.dart';
+import 'package:brijraj_app/utils/alert_message_utils.dart';
 import 'package:brijraj_app/utils/text_input_formatters.dart';
 import 'package:brijraj_app/widgets/app_appbar.dart';
 import 'package:brijraj_app/widgets/app_button.dart';
@@ -178,6 +179,20 @@ class _ReportFilterScreenState extends State<ReportFilterScreen> {
                   AppSpaces.v20,
                   AppButton(
                     onTap: () async {
+                      final fromDate = _controller.fromDateController.text;
+                      final toDate = _controller.toDateController.text;
+
+                      final DateFormat format = DateFormat('dd-MM-yyyy');
+                      final DateTime fromDateParsed = format.parse(fromDate);
+                      final DateTime toDateParsed = format.parse(toDate);
+
+                      if (toDateParsed.isBefore(fromDateParsed)) {
+                        showErrorSnackbar(
+                          'Error',
+                          'To Date must be greater than or equal to From Date.',
+                        );
+                        return;
+                      }
                       await _controller.downloadReport();
                     },
                     buttonHeight: 40.appHeight,
