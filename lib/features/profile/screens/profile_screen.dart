@@ -1,5 +1,6 @@
 import 'package:brijraj_app/constants/color_constants.dart';
 import 'package:brijraj_app/features/profile/controllers/profile_controller.dart';
+import 'package:brijraj_app/features/reports/screens/report_filter_screen.dart';
 import 'package:brijraj_app/features/reset_password/screens/reset_password_screen.dart';
 import 'package:brijraj_app/styles/textstyles.dart';
 import 'package:brijraj_app/widgets/app_button.dart';
@@ -57,6 +58,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             AppSpaces.v50,
+            AppButton(
+              onTap: () {
+                Get.to(
+                  () => ReportFilterScreen(),
+                  transition: Transition.fadeIn,
+                  duration: const Duration(
+                    milliseconds: 300,
+                  ),
+                );
+              },
+              buttonHeight: 40.appHeight,
+              title: 'Download Report',
+            ),
+            AppSpaces.v20,
             AppButton(
               onTap: () {
                 Get.to(
