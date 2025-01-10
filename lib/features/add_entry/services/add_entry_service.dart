@@ -4,9 +4,12 @@ import 'package:brijraj_app/constants/api_constants.dart';
 import 'package:brijraj_app/features/add_entry/models/customer_dm.dart';
 import 'package:brijraj_app/features/add_entry/models/transporter_dm.dart';
 import 'package:brijraj_app/features/add_entry/models/vehicle_dm.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AddEntryService {
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
   static Future<List<CustomerDm>> fetchCustomersByName([
     String? pName,
   ]) async {
@@ -108,6 +111,7 @@ class AddEntryService {
     required String vehicleNo,
     required String vehicleCode,
     required String remark,
+    required int userId,
     required List<Map<String, dynamic>> items,
   }) async {
     final url = Uri.parse(
@@ -126,6 +130,7 @@ class AddEntryService {
       'VehicleNo': vehicleNo,
       'VehicleCode': vehicleCode,
       'Remark': remark,
+      'UserId': userId,
       'data': items,
     };
 

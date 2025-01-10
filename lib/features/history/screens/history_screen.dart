@@ -161,15 +161,28 @@ class HistoryCard extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  _controller.viewPdf(slipNo: history.slipNo);
-                },
-                child: Icon(
-                  Icons.print,
-                  color: kColorPrimary,
-                  size: 25,
-                ),
+              Row(
+                children: [
+                  if (history.user != null && history.user!.isNotEmpty)
+                    Text(
+                      history.user!,
+                      style: TextStyles.kSemiBoldInstrumentSans(
+                        color: kColorLightGrey,
+                        fontSize: FontSize.k14FontSize,
+                      ),
+                    ),
+                  AppSpaces.h10,
+                  InkWell(
+                    onTap: () {
+                      _controller.viewPdf(slipNo: history.slipNo);
+                    },
+                    child: Icon(
+                      Icons.print,
+                      color: kColorPrimary,
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

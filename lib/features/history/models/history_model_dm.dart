@@ -6,6 +6,7 @@ class HistoryModelDm {
   final String transporter;
   final String remark;
   final String entryDateTime;
+  final String? user;
   final List<HistoryItemDm> items;
 
   HistoryModelDm({
@@ -16,6 +17,7 @@ class HistoryModelDm {
     required this.transporter,
     required this.items,
     required this.remark,
+    required this.user,
     required this.entryDateTime,
   });
 
@@ -28,6 +30,7 @@ class HistoryModelDm {
       transporter: json['transporter'],
       remark: json['remark'] ?? '',
       entryDateTime: json['entryDateTime'],
+      user: json['user'],
       items: (json['items'] as List)
           .map(
             (item) => HistoryItemDm.fromJson(item),

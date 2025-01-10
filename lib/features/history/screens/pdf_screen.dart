@@ -55,6 +55,7 @@ class _PdfScreenState extends State<PdfScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorLightGrey,
       appBar: AppAppbar(
         title: widget.title,
         leading: IconButton(

@@ -4,6 +4,7 @@ import 'package:brijraj_app/features/add_entry/models/vehicle_dm.dart';
 import 'package:brijraj_app/features/add_entry/services/add_entry_service.dart';
 import 'package:brijraj_app/utils/alert_message_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -32,6 +33,8 @@ class AddEntryController extends GetxController {
   var filteredTransporters = <TransporterDm>[].obs;
   var selectedTransporter = ''.obs;
   final remarkController = TextEditingController();
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   void setFuelType(String type) {
     selectedFuelType.value = type;
@@ -259,6 +262,11 @@ class AddEntryController extends GetxController {
   }
 
   Future<void> addEntry() async {
+    String? userId = await secureStorage.read(
+      key: 'userId',
+    );
+    int id = int.parse(userId!);
+
     try {
       isLoading.value = true;
 
@@ -274,6 +282,7 @@ class AddEntryController extends GetxController {
             ? ''
             : selectedVehicleCode.value.toString(),
         remark: remarkController.text,
+        userId: id,
         items: items,
       );
 

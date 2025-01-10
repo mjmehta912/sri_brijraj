@@ -59,6 +59,10 @@ class LoginController extends GetxController {
           key: 'userName',
           value: response['username'],
         );
+        await secureStorage.write(
+          key: 'userId',
+          value: response['userID'].toString(),
+        );
       }
 
       Get.to(
