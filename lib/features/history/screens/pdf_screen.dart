@@ -60,7 +60,9 @@ class _PdfScreenState extends State<PdfScreen> {
         title: widget.title,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(
+            Icons.arrow_back_ios,
+          ),
         ),
         actions: [
           IconButton(

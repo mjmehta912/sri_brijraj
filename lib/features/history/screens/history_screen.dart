@@ -165,7 +165,7 @@ class HistoryCard extends StatelessWidget {
                 children: [
                   if (history.user != null && history.user!.isNotEmpty)
                     Text(
-                      history.user!,
+                      history.user ?? '',
                       style: TextStyles.kSemiBoldInstrumentSans(
                         color: kColorLightGrey,
                         fontSize: FontSize.k14FontSize,
@@ -238,7 +238,7 @@ class HistoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                history.pname,
+                history.pname ?? '',
                 style: TextStyles.kSemiBoldInstrumentSans(
                   color: kColorPrimary,
                   fontSize: 18,

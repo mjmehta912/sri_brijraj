@@ -1,7 +1,7 @@
 class HistoryModelDm {
   final String slipNo;
   final String date;
-  final String pname;
+  final String? pname;
   final String vehicleNo;
   final String transporter;
   final String remark;
@@ -12,12 +12,12 @@ class HistoryModelDm {
   HistoryModelDm({
     required this.slipNo,
     required this.date,
-    required this.pname,
+    this.pname,
     required this.vehicleNo,
     required this.transporter,
     required this.items,
     required this.remark,
-    required this.user,
+    this.user,
     required this.entryDateTime,
   });
 
@@ -25,12 +25,12 @@ class HistoryModelDm {
     return HistoryModelDm(
       slipNo: json['slipNo'],
       date: json['date'],
-      pname: json['pname'],
+      pname: json['pname'] ?? '',
       vehicleNo: json['vehicleNo'],
       transporter: json['transporter'],
       remark: json['remark'] ?? '',
       entryDateTime: json['entryDateTime'],
-      user: json['user'],
+      user: json['user'] ?? '',
       items: (json['items'] as List)
           .map(
             (item) => HistoryItemDm.fromJson(item),
