@@ -33,15 +33,21 @@ class HistoryController extends GetxController {
     );
   }
 
-  Future<void> fetchSlipHistory({
-    bool loadMore = false,
-  }) async {
+  var isFetchingData =
+      false; // New flag to track if a fetch operation is in progress
+
+  Future<void> fetchSlipHistory({bool loadMore = false}) async {
+    if (isFetchingData) return; // Prevent concurrent calls
     if (loadMore && !hasMoreData.value) return;
+
     try {
+      isFetchingData = true; // Set the flag to true at the beginning
+
       if (!loadMore) {
         isLoading.value = true;
         currentPage = 1;
         historyList.clear();
+        hasMoreData.value = true; // Reset the flag when fetching fresh data
       } else {
         isLoadingMore.value = true;
       }
@@ -53,21 +59,17 @@ class HistoryController extends GetxController {
       );
 
       if (fetchedHistory.isNotEmpty) {
-        historyList.addAll(
-          fetchedHistory,
-        );
+        historyList.assignAll(historyList.toSet()..addAll(fetchedHistory));
         currentPage++;
       } else {
         hasMoreData.value = false;
       }
     } catch (e) {
-      showErrorSnackbar(
-        'Error',
-        e.toString(),
-      );
+      showErrorSnackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
       isLoadingMore.value = false;
+      isFetchingData = false;
     }
   }
 

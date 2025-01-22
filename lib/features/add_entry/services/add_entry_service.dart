@@ -145,10 +145,10 @@ class AddEntryService {
       final message = body['message'];
       return message;
     } else {
-      // print(response.body);
-      // print(response.reasonPhrase);
-      // print(response.statusCode);
-      throw response.body;
+      final body = jsonDecode(response.body);
+      final errorMessage = body['error'] ?? 'An unknown error occurred';
+
+      throw errorMessage;
     }
   }
 }

@@ -34,6 +34,8 @@ class AddEntryController extends GetxController {
   var selectedTransporter = ''.obs;
   final remarkController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   void setFuelType(String type) {

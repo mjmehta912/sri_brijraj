@@ -55,7 +55,6 @@ class _PdfScreenState extends State<PdfScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorLightGrey,
       appBar: AppAppbar(
         title: widget.title,
         leading: IconButton(
@@ -81,10 +80,15 @@ class _PdfScreenState extends State<PdfScreen> {
             pdfData: widget.pdfBytes,
             enableSwipe: true,
             autoSpacing: false,
+            backgroundColor: kColorLightGrey,
             pageFling: false,
             fitPolicy: FitPolicy.BOTH,
             onRender: (pages) async {
-              await Future.delayed(Duration(milliseconds: 300));
+              await Future.delayed(
+                Duration(
+                  milliseconds: 300,
+                ),
+              );
               if (mounted) {
                 setState(() {
                   isPdfReady = true;
