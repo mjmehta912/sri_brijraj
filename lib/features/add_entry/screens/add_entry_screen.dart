@@ -217,9 +217,6 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                                   return 'Please enter a vehicle no';
                                 }
 
-                                if (value.length != 10) {
-                                  return 'Please enter a 10-digit vehicle no';
-                                }
                                 return null;
                               },
                               inputFormatters: [
